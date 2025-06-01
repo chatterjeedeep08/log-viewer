@@ -20,28 +20,45 @@ const VisuallyHiddenInput = styled('input')({
   width: 1
 })
 
-const cards = [
-  {
-    id: 1,
-    title: 'Animals',
-    description: 'Animals are a part of nature.'
+function LogImport ({ onLogFileParsed }) {
+  
+  const handleFile = file => {
+    const reader = new FileReader()
+    reader.onload = e => {
+      const text = e.target.result
+      // Split into lines and filter out empty lines
+      const lines = text.split(/\r?\n/).filter(Boolean)
+      onLogFileParsed(lines)
+    }
+    reader.readAsText(file)
   }
-]
 
-function LogImport () {
   const handleDrop = event => {
+    console.log('File dropped:', event.dataTransfer.files)
     event.preventDefault()
     event.stopPropagation()
     const files = event.dataTransfer.files
     if (files && files.length > 0) {
-      console.log(files)
-      // handle files here
+      handleFile(files[0])
     }
   }
 
   const handleDragOver = event => {
+    console.log('Drag over:', event.dataTransfer.files)
     event.preventDefault()
     event.stopPropagation()
+    const files = event.dataTransfer.files
+    if (files && files.length > 0) {
+      handleFile(files[0])
+    }
+  }
+
+  const handleInputChange = event => {
+    console.log('File input changed:', event.target.files)
+    const files = event.target.files
+    if (files && files.length > 0) {
+      handleFile(files[0])
+    }
   }
 
   return (
@@ -166,8 +183,9 @@ function LogImport () {
             Browse Files
             <VisuallyHiddenInput
               type='file'
-              onChange={event => console.log(event.target.files)}
-              multiple
+              onChange={handleInputChange}
+              multiple = {false}
+              accept='.log,.txt,.csv'
             />
           </Button>
         </CardContent>
