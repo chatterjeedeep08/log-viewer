@@ -44,14 +44,17 @@ A simple React application to upload, parse, and visualize log files in a table 
 
 ## Usage
 
-1. **Upload a Log File:**  
-   Drag and drop your log file into the upload area or use the "Browse Files" button.
+1. **Access the Deployed Page:**  
+    Go to [https://chatterjeedeep08.github.io/log-viewer/](https://chatterjeedeep08.github.io/log-viewer/).
 
-2. **View Results:**  
-   The table will display each job's ID, description, start/end times, duration, and a status indicator.
+2. **Upload a Log File:**  
+    Drag and drop your log file into the upload area or use the "Browse Files" button.
 
-3. **Download Report:**  
-   Click the "Download Report File" button to export the processed data as a CSV.
+3. **View Results:**  
+    The table will display each job's ID, description, start/end times, duration, and a status indicator.
+
+4. **Download Report:**  
+    Click the "Download Report File" button to export the processed data as a CSV.
 
 ## Project Structure
 
