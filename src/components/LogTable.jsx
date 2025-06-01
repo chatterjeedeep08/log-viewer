@@ -46,7 +46,7 @@ const columns = [
 
 function createData(time, description, status, jobId) {
     console.log('Creating data row:', { time, description, status, jobId });
-    // We'll use a static map to track start times for each jobId
+    // Using a static map to track start times for each jobId
     if (!createData.jobMap) {
         createData.jobMap = {};
     }
@@ -60,7 +60,6 @@ function createData(time, description, status, jobId) {
 
     if (status === ' START') {
         jobMap[pid] = time; // store start time for this job
-        // Do not return a row for START, wait for END
         console.log(`Job ${pid} started at ${time}, storing in jobMap.Returning null.`);
         return null;
     } else if (status === ' END') {
@@ -110,45 +109,6 @@ function createData(time, description, status, jobId) {
     return null;
 }
 
-// function parseLogLines(logData) {
-//     console.log('Parsing log lines');
-//     // Reset jobMap for each parse
-//     //createData.jobMap = {};
-//     const rows = [];
-//     for (const line of logData) {
-//         // Example line: 11:35:23,scheduled task 032,START,37980
-//         console.log('Processing line:', line);
-//         const [time, description, status, jobId] = line.split(',');
-//         console.log('Parsed row:', { time, description, status, jobId });
-//         const row = createData(time, description, status, jobId);
-//         console.log('Row after createData:', row);
-//         if (row) rows.push(row);
-//     }
-//     console.log('Parsed rows:', rows);
-//     setLogRows(rows);
-// }
-
-// Update rows to filter out nulls
-// const rawRows = [
-//     createData('11:35:23', 'scheduled task 032', 'START', '37980'),
-//     createData('11:35:56', 'scheduled task 032', 'END', '37980'),
-//     createData('11:36:11', 'scheduled task 796', 'START', '57672'),
-//     createData('11:36:18', 'scheduled task 796', 'END', '57672'),
-// ];
-/*
-11:35:23,scheduled task 032, START,37980
-11:35:56,scheduled task 032, END,37980
-11:36:11,scheduled task 796, START,57672
-11:36:18,scheduled task 796, END,57672
-*/
-
-// const rows = [
-//     createData('11:35:23', 'scheduled task 032', 'START', '37980'),
-//     createData('11:35:56', 'scheduled task 032', 'END', '37980'),
-//     createData('11:36:11', 'scheduled task 796', 'START', '57672'),
-//     createData('11:36:18', 'scheduled task 796', 'END', '57672'),
-// ];
-
 export default function StickyHeadTable({ logData = [] }) {
     const [logRows, setLogRows] = useState([]);
 
@@ -165,7 +125,6 @@ export default function StickyHeadTable({ logData = [] }) {
             setLogRows(rows);
         }
         parseLogLines(logData);
-        // eslint-disable-next-line
     }, [logData]);
 
     function DownloadReport(event) {
@@ -178,7 +137,6 @@ export default function StickyHeadTable({ logData = [] }) {
         });
         const blob = new Blob([report], { type: 'text/plain;charset=utf-8' });
         saveAs(blob, 'log_report.csv');
-        // Implement download logic here if needed
     }
 
     return (
